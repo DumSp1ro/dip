@@ -1,0 +1,86 @@
+﻿<Page x:Class="ImperiyaD.pages.merches"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ImperiyaD.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="merches">
+
+    <Grid Style="{StaticResource CustomGradient}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" Background="White" >
+            <StackPanel Orientation="Horizontal" >
+                <Image Source="{Binding Path=photo}" Width="50" Height="50" Margin="5 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding Path=name}" FontSize="18" Margin="5 0 0 0"/>
+                <TextBlock Text="{Binding type_user.role}" FontSize="16" Margin="5 0 0 0"/>
+            </StackPanel>
+        </WrapPanel>
+        <ListView Grid.Row="1" Name="MerchBD" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="20" Width="390">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="210"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Width="210" Height="210" Grid.Row="1" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image.Source>
+                                <Binding Path="photo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/res/logoid.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="{Binding name}" VerticalAlignment="Center" TextAlignment="Center" Width="150"
+                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="5 5" FontSize="26" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="{Binding price, StringFormat={}Цена: {0:N2} РУБ}" Grid.Row="2" Margin="5 5 5 15" HorizontalAlignment="Center" FontSize="26" FontWeight="Bold"></TextBlock>
+                        <StackPanel Orientation="Vertical" Grid.Row="3" >
+                            <TextBlock Text="{Binding brand.brand_name, StringFormat={}Бренд: {0}}"  FontSize="14" ></TextBlock>
+                            <TextBlock Text="{Binding size, StringFormat={}Размер: {0}}" FontSize="14" ></TextBlock>
+                            <TextBlock Text="{Binding DiscountText}" HorizontalAlignment="Right" FontSize="14" ></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить в корзину" Click="AddToOrder_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+        <Button Content="Просмотр заказа" Click="ShowOrderButton_Click" Name="ShowOrderButton" Visibility="Collapsed" Width="150" HorizontalAlignment="Right" Margin="10"
+Grid.Row="2"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="&lt;&lt;&lt;" x:Name="PreviousPageButton" Click="PreviousPageButton_Click" Height="25" Style="{StaticResource ButtonAuto}"/>
+            <Button Content="&gt;&gt;&gt;" x:Name="NextPageButton" Click="NextPageButton_Click" Height="25" Style="{StaticResource ButtonAuto}"/>
+        </StackPanel>
+
+        <Grid Name="NameSort"
+            Grid.Row="2">
+            <TextBox x:Name="SearchTextBox" Width="150" TextChanged="SearchTextBox_TextChanged" Style="{StaticResource tb}" VerticalAlignment="Top" Margin="8"/>
+            <TextBlock IsHitTestVisible="False" FontSize="14" Text="Название" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 16 80 0" Style="{StaticResource SortMerchBlock}"/>
+        </Grid>
+
+        <Grid Name="SortMan"
+              Grid.Row="2">
+            <ComboBox x:Name="BrendComboBox" SelectionChanged="BrendComboBox_SelectionChanged" Style="{StaticResource ComboBoxStyle}" Width="150" VerticalAlignment="Bottom" Margin="8" DisplayMemberPath="brand_name" />
+        </Grid>
+    </Grid>
+</Page>
